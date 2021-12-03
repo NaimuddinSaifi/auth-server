@@ -44,7 +44,8 @@ module.exports = {
                     code: 200,
                     message: 'Login Success',
                     data: {
-                        token: jwt.sign({ userName, password }, 'SECRET', { expiresIn: '1h' })
+                        token: jwt.sign({ userName, password }, 'SECRET', { expiresIn: '1h' }),
+                        userId : userNameExists.email
                     }
                 })
             } else {
@@ -80,12 +81,13 @@ module.exports = {
                     message: 'Client not found.'
                 })
             }
-            if (clientIdExists.redirect_uri !== redirectUri) {
-                return res.send({
-                    code: 400,
-                    message: 'Redirect uri mismatch.'
-                })
-            }
+            console.log(clientIdExists)
+            // if (clientIdExists.redirect_uri !== redirectUri) {
+            //     return res.send({
+            //         code: 400,
+            //         message: 'Redirect uri mismatch.'
+            //     })
+            // }
             if (clientIdExists) {
                 //save code in db
                 const decodedUser = jwt.verify(token, 'SECRET')
